@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "---> Building by Python Buildpack"
+
+# 入力引数
+env_dir=$2/env
+layers_dir=$1
+plan_path=$3
+
+mkdir -p $layers_dir
+
+venv_layer="$layers_dir/venv"
+
+# venvレイヤー作成
+pushd $layers_dir
+python -m venv venv
+source venv/bin/activate
+popd
+
+# インストールして出力先に指定
+pip install -r requirements.txt --disable-pip-version-check
+echo "launch = true" > "$venv_layer.toml"
+
+# 実行コマンド登録
+cat >> "${layers_dir}/launch.toml" <<EOL
+[[processes]]
+type = "web"
+command = "python"
+args = ["main.py", "${venv_layer}"]
+direct = true
+EOL
+echo "---> Done"

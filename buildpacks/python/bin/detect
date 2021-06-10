@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "---> Detecting Python Buildpack"
+
+if [ ! -f requirements.txt ]; then
+  exit 1
+fi
+
+echo "---> Python Buildpack"

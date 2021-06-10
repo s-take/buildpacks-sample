@@ -1,0 +1,11 @@
+# Buildpack API version
+api = "0.2"
+
+[buildpack]
+id = "buildpacks/empty"
+version = "0.0.1"
+name = "Empty Buildpack"
+homepage = "https://github.com/s-take/"
+
+[[stacks]]
+id = "io.github.stake.samples.debian"

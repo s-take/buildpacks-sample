@@ -1,0 +1,26 @@
+# Buildpacks to include in builder
+[[buildpacks]]
+id = "buildpacks/empty"
+version = "0.0.1"
+uri = "../../buildpacks/empty"
+
+[[buildpacks]]
+id = "buildpacks/python"
+version = "0.0.1"
+uri = "../../buildpacks/python"
+
+# Order used for detection
+[[order]]
+  [[order.group]]
+  id = "buildpacks/empty"
+  version = "0.0.1"
+
+  [[order.group]]
+  id = "buildpacks/empty"
+  version = "0.0.1"
+  
+# Stack that will be used by the builder
+[stack]
+id = "io.github.stake.samples.debian"
+run-image = "distroless-python:run"
+build-image = "distroless-python:build"
