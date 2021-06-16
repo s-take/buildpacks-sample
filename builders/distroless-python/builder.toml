@@ -16,7 +16,7 @@ uri = "../../buildpacks/python"
   version = "0.0.1"
 
   [[order.group]]
-  id = "buildpacks/empty"
+  id = "buildpacks/python"
   version = "0.0.1"
   
 # Stack that will be used by the builder

@@ -1,12 +1,18 @@
 # buildpackチュートリアル
 
+stack作成〜rebaseまでを体験
+
 ## 事前準備
 
 以下をインストールしておく
 - docker
 - pack
 
-## stack作成
+## Stack/Buildpack/Builder作成
+
+![](https://buildpacks.io/docs/concepts/components/create-builder.svg)
+
+### stack作成
 
 - build imageとrun imageのDockerfileを作成し、それぞれ(ローカル)ビルドする
 
@@ -24,17 +30,17 @@ distroless-python                     build                                     
 distroless-python                     run                                                     82082a1289c9   51 years ago     52.2MB
 ```
 
-## buildpack作成
+### buildpack作成
 
 - buildpackに必要な以下の３ファイルを作成する
   - buildpack.toml
   - bin/detect
   - bin/build
 
-## builder作成
+### builder作成
 
 - builder.tomlを作成し、buildpacks,stacksの情報を記載する
-  - buildpacksはdockerイメージでも可能
+  - 今回buildpackはディレクトリ指定だが、dockerイメージでも可能
 - 作成したらpackでbuilderを作成する
 
 ```
@@ -44,8 +50,11 @@ pack builder create python:distroless --config ./distroless-python/builder.toml
 
 ## app image作成
 
+![](https://buildpacks.io/docs/concepts/operations/build.svg)
+
 ```
-pack build empty-sample --builder python:distroless
+cd sample-app
+pack build webapp --builder python:distroless
 ```
 
 ### buildpack追加
@@ -59,6 +68,22 @@ pack build empty-sample --builder python:distroless
 ```
 cd sample-app
 pack build webapp --builder python:distroless --buildpack ../buildpacks/python
+```
+
+## rebase
+
+![](https://buildpacks.io/docs/concepts/operations/rebase.svg)
+
+```
+cd stacks
+vi ./distroless-python/run/Dockerfile
+docker build -t distroless-python:run -f ./distroless-python/run/Dockerfile .
+```
+
+更新後にrebase実行する
+
+```
+pack rebase 
 ```
 
 ## 参考
