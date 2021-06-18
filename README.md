@@ -32,10 +32,41 @@ distroless-python                     run                                       
 
 ### buildpack作成
 
+- 以下のようなコマンドでディレクトリを作成する（今回はすでに作成済み）
+
+```
+pack buildpack new examples/ruby \
+    --api 0.5 \
+    --path ruby-buildpack \
+    --version 0.0.1 \
+    --stacks io.buildpacks.samples.stacks.bionic
+```
+
 - buildpackに必要な以下の３ファイルを作成する
   - buildpack.toml
   - bin/detect
   - bin/build
+
+### 番外: buildpackのレジストリ登録
+
+buildpackをOCIイメージとして登録する方法。以下の手順が必要
+1. buildpackのパッケージ化  
+- package.tomlを作成し、idやdependenciesを定義する
+- 以下の例だとmy-buildpackのdockerイメージとして生成される
+```
+pack buildpack package my-buildpack --config ./package.toml
+```
+
+2. buildpackのレジストリ登録  
+- docker hubにpushする
+```
+docker push example/my-cnb
+```
+- この情報を元に本家buildpackに登録。以下の例だと example/my-cnb という名前で登録される
+- ここでgithub認証が出るが本当に登録する予定がないため実施していない
+```
+pack buildpack register example/my-cnb
+```
 
 ### builder作成
 
