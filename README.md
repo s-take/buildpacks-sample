@@ -54,7 +54,8 @@ buildpackをOCIイメージとして登録する方法。以下の手順が必�
 - package.tomlを作成し、idやdependenciesを定義する
 - 以下の例だとmy-buildpackのdockerイメージとして生成される
 ```
-pack buildpack package my-buildpack --config ./package.toml
+cd packages
+pack buildpack package example/my-cnb --config ./empty/package.toml
 ```
 
 2. buildpackのレジストリ登録  
